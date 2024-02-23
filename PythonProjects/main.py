@@ -7,7 +7,7 @@ player.nome = f'\033[034m{player.nome}\033[m'
 dungeon = [Goblin() for x in range(5)]
 
 
-"""for goblin in dungeon:
+for goblin in dungeon:
 
     if player.vivo:
         goblin.info(player)
@@ -31,4 +31,4 @@ if player.vivo:
     player.level_up()
 
 else:
-    print('\nGAME OVER!')"""
+    print('\nGAME OVER!')
