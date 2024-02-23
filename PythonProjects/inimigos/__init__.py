@@ -72,11 +72,3 @@ class Goblin:
 
     def info(self, prota):
         return print(f'{prota.nome}, agora você enfrentará {self.nome}, um goblin com {self.poder} FC e {self.vida} HP')
-
-
-class Orc(Goblin):
-    def super(self):
-        self.nome = None
-        self.vivo = True
-        self.poder = randint(10, 15)
-        self.vida = randint(50, 65)
