@@ -69,6 +69,8 @@ class Protagonista:
             print(f'\nNovo FC de {self.nome}: {self.poder:.2f} FC')
             quantidade -= 1
 
+        self.mochila[resposta]['quantidade'] = quantidade
+
         print('-=' * 50)
         sleep(2)
         print(f'Itens remanescentes na mochila:')
