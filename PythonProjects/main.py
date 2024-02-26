@@ -4,8 +4,7 @@ from protagonista import *
 
 player = Protagonista(input('Qual o seu nome, guerreiro? '))
 player.nome = f'\033[034m{player.nome}\033[m'
-dungeon = [Goblin() for x in range(5)]
-
+dungeon = [Goblin() for x in range(2)]
 
 for goblin in dungeon:
 
@@ -17,7 +16,7 @@ for goblin in dungeon:
         if goblin.vivo and player.vivo:
 
             if player.vivo:
-                player.atacar(goblin)
+                player.turno(goblin)
             else:
                 break
 
