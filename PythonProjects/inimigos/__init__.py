@@ -66,11 +66,12 @@ class Inimigo:
             protagonista.vivo = False
             print('-=' * 50)
 
-    def info(self, prota):
+    def info(self):
 
         print('-=' * 50)
         sleep(2)
-        return print(f'{prota.nome}, você enfrentará um {self.tipo} com {self.poder} FC e {self.vida} HP')
+        print(f'Você enfrentará um {self.tipo} com {self.poder} FC e {self.vida} HP')
+        sleep(2)
 
 
 class Goblin(Inimigo):
@@ -84,8 +85,8 @@ class Goblin(Inimigo):
         sleep(2)
         print(f'\nUm d6 será rolado para determinar o dano adicional')
         sleep(2)
-        print(f'\nO {self.tipo} usou uma pequena faca para cortar o corpo de {protagonista.nome}, causando {dano}'
-              f' de dano!')
+        print(f'\nO {self.tipo} usou uma pequena faca para cortar o corpo de {protagonista.nome}, causando '
+              f'\033[33m{dano:.2f} de dano\033[m!')
         protagonista.vida_atual -= dano
 
 
@@ -102,8 +103,8 @@ class Orc(Inimigo):
         sleep(2)
         print(f'\nUm d6 será rolado para determinar o dano adicional')
         sleep(2)
-        print(f'\nO {self.tipo} arrancou uma grande rocha fincada na parede, arremessando-a em {protagonista.nome}!'
-              f' {dano} de dano foi causado!')
+        print(f'\nO {self.tipo} arrancou uma grande rocha fincada na parede, arremessando-a em {protagonista.nome}! '
+              f'\033[33m{dano:.2f} de dano\033[m foi causado!')
         protagonista.vida_atual -= dano
 
 
@@ -121,5 +122,5 @@ class Troll(Inimigo):
         print(f'\nUm d6 será rolado para determinar o dano adicional')
         sleep(2)
         print(f'\nO {self.tipo} mordeu o corpo de {protagonista.nome} com suas presas afiadas, '
-              f'arrancando um pedaço de sua carne! {dano} de dano foi causado!')
+              f'arrancando um pedaço de sua carne! \033[33m{dano:.2f} de dano\033[m foi causado!')
         protagonista.vida_atual -= dano
