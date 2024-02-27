@@ -2,32 +2,36 @@ from inimigos import *
 from protagonista import *
 
 
-player = Protagonista(input('Qual o seu nome, guerreiro? '))
-player.nome = f'\033[034m{player.nome}\033[m'
-dungeon = [Goblin() for x in range(2)]
+def dungeon(player, covil):
+    for inimigo in covil:
 
-for goblin in dungeon:
+        if player.vivo:
+            inimigo.info(player)
+
+        while inimigo.vivo and player.vivo:
+
+            if inimigo.vivo and player.vivo:
+
+                if player.vivo:
+                    player.turno(inimigo)
+                else:
+                    break
+
+                if inimigo.vivo:
+                    inimigo.atacar(player)
+                else:
+                    break
 
     if player.vivo:
-        goblin.info(player)
+        print(f'\nVocê completou a dungeon\n')
+        player.level_up()
 
-    while goblin.vivo and player.vivo:
+    else:
+        print('\nGAME OVER!')
 
-        if goblin.vivo and player.vivo:
 
-            if player.vivo:
-                player.turno(goblin)
-            else:
-                break
+jogador = Protagonista(input('Qual o seu nome, guerreiro? '))
+jogador.nome = f'\033[034m{jogador.nome}\033[m'
+covil_goblins = [Goblin() for x in range(3)]
 
-            if goblin.vivo:
-                goblin.atacar(player)
-            else:
-                break
-
-if player.vivo:
-    print(f'\nVocê completou a dungeon\n')
-    player.level_up()
-
-else:
-    print('\nGAME OVER!')
+dungeon(jogador, covil_goblins)

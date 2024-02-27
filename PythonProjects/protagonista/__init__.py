@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 from time import sleep
 
 
@@ -15,10 +15,63 @@ class Protagonista:
                         {'item': 'Poção de cura Forte', 'quantidade': 1},
                         {'item': 'Poção de Força', 'quantidade': 1}]
 
-    def usar_item(self):
+    def fugir(self, inimigo):  # Define a penalidade para fuga do combate
+
         print('-=' * 50)
         sleep(2)
-        print(f'Itens disponíveis na mochila:')
+        print(f'Você decidiu fugir do combate!\n')
+        sleep(2)
+        print(f'Role um d4 para determinar sua \033[31mPenalidade!\033[m\n')
+        sleep(2)
+        d4 = randint(1, 4)
+        print(f'Pressione ENTER para jogar o dado!')
+        input()
+        print(f'Você tirou {d4}! Penalidade aplicada:\n')
+        sleep(2)
+
+        if d4 == 1:
+            print(f'Redução de 10% no dano de ataque pro resto do jogo!\n')
+            print(f'Seu FC passou de \033[34m{self.poder}\033[m para \033[32m{self.poder * 0.9}\033[m')
+            self.poder *= 0.9
+
+        elif d4 == 2:
+            print(f'Redução de 20% da vida atual!\n')
+            print(f'Você perdeu \033[34m{self.vida_atual * 0.2}\033[m pontos de vida! '
+                  f'Novo HP = \033[32m{self.vida_atual * 0.8}\033[m pontos')
+            self.vida_atual *= 0.8
+
+        elif d4 == 3:
+            print(f'Você perdeu um item aleatório da sua mochila!\n')
+            item = choice(self.mochila)
+            while True:
+                if item['quantidade'] <= 0:
+                    item = choice(self.mochila)
+                else:
+                    break
+            item['quantidade'] -= 1
+            print(f'Uma unidade de \033[34m{item['item']}\033[m foi removida do seu inventário! '
+                  f'Nova quantidade = \033[32m{item['quantidade']}\033[m')
+
+            for itens in self.mochila:
+                if itens['item'] == item['item']:
+                    itens['quantidade'] = item['quantidade']
+
+        else:
+            print('Redução de 10% na vida máxima pro resto do jogo!\n')
+            print(f'Seu HP máximo passou de \033[34m{self.vida_max}\033[m para \033[32m{self.vida_max * 0.9} pontos!')
+            self.vida_max *= 0.9
+            if self.vida_max < self.vida_atual:
+                self.vida_atual = self.vida_max
+
+        print(f'\nVocê fugiu do {inimigo.tipo} com sucesso!')
+        inimigo.vivo = False
+
+    def usar_item(self):  # Define o item que o protagonista decidiu usar, removendo uma unidade do item utilizado!
+
+        print('-=' * 50)
+        sleep(2)
+        print(f'Itens disponíveis na mochila:\n')
+        sleep(1)
         indice = 0
         for idx, valor in enumerate(self.mochila):
             if self.mochila[idx]['quantidade'] > 0:
@@ -28,7 +81,7 @@ class Protagonista:
         escolhas = range(len(self.mochila))
 
         while True:
-            resposta = int(input('Qual será a sua escolha? '))
+            resposta = int(input('\nQual será a sua escolha? '))
             if resposta not in escolhas:
                 print('Por favor, digite um resposta válida!')
                 print('-=' * 50)
@@ -80,12 +133,13 @@ class Protagonista:
                 print(f'\t{indice + 1}) {self.mochila[idx]["item"]} = {self.mochila[idx]["quantidade"]}')
                 indice += 1
 
-    def turno(self, inimigo):
+    def turno(self, inimigo):  # Aqui é definido o turno onde o protagonista escolhe sua ação
+
         print('-=' * 50)
-        print(f'{self.nome}, é o seu turno!')
+        print(f'{self.nome}, é o seu turno!\n')
         sleep(2)
         print(f'Escolha qual será a sua ação:\n'
-              f'\t1) Atacar o {inimigo.tipo}\n'
+              f'\n\t1) Atacar o {inimigo.tipo}\n'
               f'\t2) Usar um item consumível\n'
               f'\t3) Fugir do combate\n')
         escolhas = [1, 2, 3]
@@ -101,9 +155,10 @@ class Protagonista:
         elif resposta == 2:
             self.usar_item()
         else:
-            pass
+            self.fugir(inimigo)
 
-    def atacar(self, inimigo):
+    def atacar(self, inimigo):  # O nome diz por si só, um d20 é lançado para determinar o sucesso do ataque
+
         print('-=' * 50)
         sleep(2)
         print('Você escolheu atacar! Pressione ENTER para rolar o dado!')
@@ -116,14 +171,14 @@ class Protagonista:
 
         if 1 <= d20 <= 5:
             dano = randint(1, 6)
-            print(f'O \n{inimigo.tipo} desviou do ataque e deu \033[33m{dano:.2f} de dano\033[m no seu HP')
+            print(f'\nO {inimigo.tipo} desviou do ataque e deu \033[33m{dano:.2f} de dano\033[m no seu HP')
             self.vida_atual -= dano
             if self.vida_atual <= 0:
                 self.vivo = False
 
         elif 6 <= d20 <= 9:
             dano = self.poder * 0.5
-            print(f'O \n{inimigo.tipo} bloqueou parcialmente o seu ataque, tomando apenas '
+            print(f'\nO {inimigo.tipo} bloqueou parcialmente o seu ataque, tomando apenas '
                   f'\033[33m{dano:.2f} de dano físico\033[m')
             inimigo.vida -= dano
 
@@ -158,9 +213,9 @@ class Protagonista:
             sleep(2)
             print(f'\nVocê matou o {inimigo.tipo}!\n')
             inimigo.vivo = False
-            print('-=' * 50)
 
-    def level_up(self):
+    def level_up(self):  # Toda vez que a dungeon é completada, o protagonista ganha buff nos atributos
+
         if self.vida_atual < self.vida_max:
             self.vida_atual += self.vida_max * 0.45
 
@@ -174,7 +229,8 @@ class Protagonista:
         self.level += 1
         self.poder *= 1.25
 
-        return print(f'{self.nome} subiu de nível!\nStatus atual:\n'
+        return print(f'{"-=" * 50}\n'
+                     f'{self.nome} subiu de nível!\nStatus atual:\n'
                      f'\033[36mNível\033[m = {self.level}\n'
                      f'\033[35mPoder\033[m = {self.poder:.2f}\n'
                      f'\033[32mVida Atual/Máxima:\033[m {self.vida_atual:.2f}/{self.vida_max:.2f} HP\n'

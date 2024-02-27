@@ -67,6 +67,9 @@ class Inimigo:
             print('-=' * 50)
 
     def info(self, prota):
+
+        print('-=' * 50)
+        sleep(2)
         return print(f'{prota.nome}, você enfrentará um {self.tipo} com {self.poder} FC e {self.vida} HP')
 
 
