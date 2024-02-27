@@ -235,3 +235,24 @@ class Protagonista:
                      f'\033[35mPoder\033[m = {self.poder:.2f}\n'
                      f'\033[32mVida Atual/Máxima:\033[m {self.vida_atual:.2f}/{self.vida_max:.2f} HP\n'
                      f'{"-=" * 50}')
+
+    def info(self):
+        print('-=' * 50)
+        print(f'{self.nome}, você recebeu a benção do \033[35mGUERREIRO\033[m!')
+        sleep(2)
+        print(f'\nSeus status são:')
+        sleep(2)
+        print(f'\t\033[32mVida Máxima\033[m: {self.vida_max} HP')
+        sleep(2)
+        print(f'\t\033[33mPoder de combate\033[m: {self.poder} FC')
+        sleep(2)
+        print(f'\t\033[36mNível atual\033[m: {self.level}')
+        sleep(2)
+        print(f'\nItens disponíveis na sua mochila:')
+        for itens in self.mochila:
+            sleep(2)
+            if itens['quantidade'] > 1:
+                print(f'\t{itens["quantidade"]} unidades de \033[34m{itens["item"]}\033[m')
+            else:
+                print(f'\t{itens["quantidade"]} unidade de \033[34m{itens["item"]}\033[m')
+        print('-=' * 50)
