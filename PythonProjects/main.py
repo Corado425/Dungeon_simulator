@@ -32,6 +32,11 @@ def dungeon(player, covil):
 
 jogador = Protagonista(input('Qual o seu nome, guerreiro? '))
 jogador.nome = f'\033[034m{jogador.nome}\033[m'
+
 covil_goblins = [Goblin() for x in range(3)]
+covil_orcs = [Orc() for y in range(2)]
+covil_trolls = [Troll() for z in range(2)]
 
 dungeon(jogador, covil_goblins)
+dungeon(jogador, covil_orcs)
+dungeon(jogador, covil_trolls)
